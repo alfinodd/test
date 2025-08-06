@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kantin Sekolah Alfin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF9F1C;
+            --secondary: #2EC4B6;
+            --accent: #E71D36;
+            --dark: #011627;
+            --light: #FDFFFC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            margin-right: 1rem;
+        }
+
+        nav {
+            background-color: var(--secondary);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--dark);
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4ca87891-0026-46d4-8a64-ff10698582c5.png') no-repeat center center/cover;
+            color: var(--light);
+            height: 300px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--accent);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background-color: var(--secondary);
+            margin: 0.5rem auto;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .menu-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .menu-card:hover .menu-image img {
+            transform: scale(1.05);
+        }
+
+        .menu-info {
+            padding: 1.5rem;
+        }
+
+        .menu-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .menu-price {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .menu-desc {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-to-cart {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--primary);
+        }
+
+        .cart-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 90;
+        }
+
+        .cart-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--dark);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .cart-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .checkout-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background-color: var(--primary);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-item-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .cart-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 10px;
+        }
+
+        .quantity-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+        }
+
+        .item-quantity {
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+
+        .remove-btn:hover {
+            opacity: 0.8;
+        }
+
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                height: 200px;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/85ffa5a6-3a5e-48c9-8e69-640b90dc99c7.png" alt="Logo Kantin Sekolah XYZ dengan desain modern dan warna cerah">
+            <h1>KANTIN SEKOLAH XYZ</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#tentang">Tentang Kami</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Menu Lezat untuk Hari Ini</h1>
+        <p>Pesan sekarang dan nikmati makanan terbaik dari kantin sekolah kami</p>
+    </section>
+
+    <div class="container">
+        <section id="menu">
+            <h2 class="section-title">MENU KAMI</h2>
+            
+            <div class="menu-grid">
+                <!-- Menu 1 -->
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/295d216d-1b8d-4796-a52c-fdf77947355e.png" alt="Nasi goreng spesial dengan telur mata sapi, ayam, dan sayuran di atas piring putih">
+                    </div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Nasi Goreng Spesial</h3>
+                        <p class="menu-price">Rp 15.000</p>
+                        <p class="menu-desc">Nasi goreng dengan telur, ayam, udang, dan sayuran segar. Dibumbui rempah pilihan.</p>
+                        <button class="add-to-cart" data-id="1" data-name="Nasi Goreng Spesial" data-price="15000">Tambahkan ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Menu 2 -->
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d7479dd8-6291-4f2a-8313-2261482feacd.png" alt="Mie ayam dengan potongan daging ayam, pangsit, dan daun bawang di mangkuk keramik">
+                    </div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Mie Ayam Komplit</h3>
+                        <p class="menu-price">Rp 12.000</p>
+                        <p class="menu-desc">Mie ayam dengan pangsit, bakso, jamur, dan sayuran. Kuah gurih dan nikmat.</p>
+                        <button class="add-to-cart" data-id="2" data-name="Mie Ayam Komplit" data-price="12000">Tambahkan ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Menu 3 -->
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/89f73c7d-5c0d-42ea-adc1-1c7d1f6bb51d.png" alt="Ayam goreng crispy dengan sambal dan lalapan segar di atas piring kayu">
+                    </div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Ayam Goreng Crispy</h3>
+                        <p class="menu-price">Rp 18.000</p>
+                        <p class="menu-desc">Ayam goreng dengan tepung khusus yang renyah di luar dan juicy di dalam. Disajikan dengan sambal.</p>
+                        <button class="add-to-cart" data-id="3" data-name="Ayam Goreng Crispy" data-price="18000">Tambahkan ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Menu 4 -->
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/943e0834-bcd2-4314-8e61-bbea8e017686.png" alt="Bakso urat besar dengan kuah bening dan mie kuning dalam mangkuk besar">
+                    </div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Bakso Urat Jumbo</h3>
+                        <p class="menu-price">Rp 10.000</p>
+                        <p class="menu-desc">Bakso urat ukuran jumbo dengan tekstur kenyal. Disajikan dengan mie dan kuah kaldu sapi.</p>
+                        <button class="add-to-cart" data-id="4" data-name="Bakso Urat Jumbo" data-price="10000">Tambahkan ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Menu 5 -->
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6fb32463-d5aa-4444-ace9-e3ca5ebc231d.png" alt="Es teh manis dengan lemon slice dan daun mint dalam gelas tinggi">
+                    </div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Es Teh Manis</h3>
+                        <p class="menu-price">Rp 5.000</p>
+                        <p class="menu-desc">Es teh dengan rasa yang pas tidak terlalu manis. Disajikan dengan potongan lemon segar.</p>
+                        <button class="add-to-cart" data-id="5" data-name="Es Teh Manis" data-price="5000">Tambahkan ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Menu 6 -->
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a7acc82f-c107-47b7-98fa-f6ed379d33b1.png" alt="Jus alpukat kental dengan sirup dan susu kental manis di gelas bening">
+                    </div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Jus Alpukat</h3>
+                        <p class="menu-price">Rp 8.000</p>
+                        <p class="menu-desc">Jus alpukat segar dengan campuran susu kental manis. Nikmat dan menyehatkan.</p>
+                        <button class="add-to-cart" data-id="6" data-name="Jus Alpukat" data-price="8000">Tambahkan ke Keranjang</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tentang" class="about-section">
+            <h2 class="section-title">TENTANG KAMI</h2>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <p>Kantin Sekolah XYZ berkomitmen untuk menyediakan makanan dan minuman sehat, higienis, dan bergizi bagi siswa dan guru. Kami menggunakan bahan-bahan segar dan berkualitas dalam setiap masakan kami.</p>
+                <p>Buka setiap hari Senin hingga Jumat pukul 07.00 - 14.00 WIB.</p>
+            </div>
+        </section>
+
+        <section id="kontak" class="contact-section">
+            <h2 class="section-title">KONTAK KAMI</h2>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <p>Untuk pemesanan atau informasi lebih lanjut, hubungi kami melalui:</p>
+                <p><i class="fas fa-phone"></i> 0812-3456-7890</p>
+                <p><i class="fas fa-map-marker-alt"></i> Kantin Sekolah XYZ, Jl. Pendidikan No. 123</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="cart-container">
+        <button class="cart-btn" id="cartBtn">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </div>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Keranjang Belanja</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                Total: Rp <span id="cartTotal">0</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Checkout via WhatsApp</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 Kantin Sekolah XYZ. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartBtn = document.getElementById('cartBtn');
+            const cartModal = document.getElementById('cartModal');
+            const closeModal = document.getElementById('closeModal');
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            
+            let cart = [];
+
+            // Buka modal keranjang
+            cartBtn.addEventListener('click', function() {
+                cartModal.style.display = 'flex';
+                updateCartDisplay();
+            });
+
+            // Tutup modal keranjang
+            closeModal.addEventListener('click', function() {
+                cartModal.style.display = 'none';
+            });
+
+            // Tambahkan item ke keranjang
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+                    const price = parseInt(this.getAttribute('data-price'));
+                    
+                    // Cek apakah item sudah ada di keranjang
+                    const existingItem = cart.find(item => item.id === id);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id,
+                            name,
+                            price,
+                            quantity: 1
+                        });
+                    }
+                    
+                    updateCartCount();
+                    showAddedToCart(name);
+                });
+            });
+
+            // Update jumlah item di keranjang
+            function updateCartCount() {
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+
+            // Handle quantity changes and removal
+            function handleCartControls() {
+                document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const item = cart.find(item => item.id === id);
+                        if (item.quantity > 1) {
+                            item.quantity--;
+                            updateCartDisplay();
+                            updateCartCount();
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const item = cart.find(item => item.id === id);
+                        item.quantity++;
+                        updateCartDisplay();
+                        updateCartCount();
+                    });
+                });
+
+                document.querySelectorAll('.remove-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        cart = cart.filter(item => item.id !== id);
+                        updateCartDisplay();
+                        updateCartCount();
+                        if (cart.length === 0) {
+                            setTimeout(() => cartModal.style.display = 'none', 300);
+                        }
+                    });
+                });
+            }
+
+            // Update tampilan keranjang
+            function updateCartDisplay() {
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p>Keranjang belanja kosong</p>';
+                    cartTotal.textContent = '0';
+                    return;
+                }
+                
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'cart-item';
+                    itemElement.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-img">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a2153641-5529-43ee-96be-3721e414e9be.png" alt="${item.name}">
+                            </div>
+                            <div>
+                                <h4>${item.name}</h4>
+                                <p>${item.quantity} x Rp ${item.price.toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                            <span class="item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                            <button class="remove-btn" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="cart-item-price">
+                            Rp ${itemTotal.toLocaleString()}
+                        </div>
+                    `;
+                    
+                    cartItemsContainer.appendChild(itemElement);
+                });
+                
+                cartTotal.textContent = total.toLocaleString();
+                handleCartControls();
+            }
+
+            // Checkout via WhatsApp
+            checkoutBtn.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    alert('Keranjang belanja kosong');
+                    return;
+                }
+                
+                let message = 'Halo, saya ingin memesan:\n\n';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    message += `${item.name} (${item.quantity}) - Rp ${itemTotal.toLocaleString()}\n`;
+                });
+                
+                message += `\nTotal: Rp ${total.toLocaleString()}\n\nTerima kasih!`;
+                
+                const whatsappUrl = `https://wa.me/6285876096823?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+
+            // Tampilkan notifikasi saat item ditambahkan
+            function showAddedToCart(itemName) {
+                const notification = document.createElement('div');
+                notification.className = 'cart-notification';
+                notification.textContent = `${itemName} ditambahkan ke keranjang`;
+                notification.style.position = 'fixed';
+                notification.style.bottom = '100px';
+                notification.style.right = '20px';
+                notification.style.backgroundColor = '#2EC4B6';
+                notification.style.color = 'white';
+                notification.style.padding = '10px 20px';
+                notification.style.borderRadius = '4px';
+                notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                notification.style.zIndex = '1000';
+                notification.style.animation = 'fadeIn 0.3s';
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'fadeOut 0.3s';
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
+
